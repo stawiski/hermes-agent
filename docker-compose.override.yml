@@ -1,0 +1,15 @@
+# Local-only override on top of the upstream's docker-compose.yml.
+# This is auto-loaded by docker compose.
+#
+# Builds Dockerfile.local on top of the upstream image
+# and re-tags as `hermes-agent-local`.
+
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    image: hermes-agent-local
+
+  dashboard:
+    image: hermes-agent-local

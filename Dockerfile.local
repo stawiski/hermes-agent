@@ -1,0 +1,18 @@
+# Local-only overlay on top of the upstream Hermes image.
+# To be rebased onto upstream main from time to time.
+# Not intended for upstream PR.
+
+ARG BASE=hermes-agent
+FROM ${BASE}
+
+# ---------- System packages ----------
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      postgresql-client \
+      jq \
+      nano \
+    && rm -rf /var/lib/apt/lists/*
+USER hermes
+
+# ---------- Python packages ----------
+RUN /opt/hermes/.venv/bin/pip install --no-cache-dir "psycopg[binary]"
