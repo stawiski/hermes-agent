@@ -12,7 +12,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       jq \
       nano \
     && rm -rf /var/lib/apt/lists/*
-USER hermes
 
 # ---------- Python packages ----------
-RUN /opt/hermes/.venv/bin/pip install --no-cache-dir "psycopg[binary]"
+USER hermes
+RUN uv pip install --no-cache-dir "psycopg[binary]"
+
+# Restore root so the upstream entrypoint can usermod/groupmod the hermes user
+USER root
